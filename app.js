@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const schedule = require("node-schedule");
 const path = require("path");
+const cors = require("cors");
 //////////////////////////////////////////
 const connectDB = require("./DB/connection");
 const { runAllProductsToday } = require("./libs/allProductsToday");
@@ -19,6 +20,7 @@ schedule.scheduleJob("59 59 23 * * *", function () {
   runAllProductsToday();
 });
 //////////////////////////////////////////
+app.use(cors());
 app.use(express.json());
 app.use("/api/v1/authentication", indexRouter.authenticationRouter);
 app.use("/api/v1/user", indexRouter.userRouter);
