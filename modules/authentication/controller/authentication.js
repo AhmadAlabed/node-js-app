@@ -10,7 +10,7 @@ const signup = async (req, res, next) => {
     const { userName, email, password } = req.body;
     const findUser = await userModel.findOne({ email }).select(" email "); // {} or null
     if (findUser) {
-      res.status(409).json({ message: "User already exists" });
+      res.json({ message: "User already exists" });
     } else {
       const newUser = new userModel({ userName, email, password });
       const savedUser = await newUser.save();
