@@ -8,12 +8,17 @@ const sendEmailConfirm = require("../../../libs/sendEmailConfirm");
 const signup = async (req, res, next) => {
   try {
     const { userName, email, password } = req.body;
-    const newUser = new userModel({ userName, email, password });
-    const savedUser = await newUser.save();
-    //---------------------------------------------
-    sendEmailConfirm(req, savedUser._id, savedUser.email, "creating");
-    //---------------------------------------------
-    res.status(201).json(savedUser);
+    const findUser = await userModel.findOne({ email }).select(" email "); // {} or null
+    if (findUser) {
+      res.status(409).json({ message: "User already exists" });
+    } else {
+      const newUser = new userModel({ userName, email, password });
+      const savedUser = await newUser.save();
+      //---------------------------------------------
+      //sendEmailConfirm(req, savedUser._id, savedUser.email, "creating");
+      //---------------------------------------------
+      res.status(201).json(savedUser);
+    }
   } catch (error) {
     if (error.keyValue?.email) {
       res.status(409).json({ message: "Email already exists.", error });
