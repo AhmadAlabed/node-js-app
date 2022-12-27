@@ -2,7 +2,7 @@ const userStatus = (req, res, next) => {
   const { isBlocked, isDeleted, emailConfirm } = req.user;
   ////////////////STATUS OF User////////////////
   if (emailConfirm === false) {
-    res.status(401).json({
+    res.json({
       message: "Please confirm your email address",
     });
     return;
