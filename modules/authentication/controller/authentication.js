@@ -96,7 +96,7 @@ const signin = async (req, res, next) => {
     if (userInfo) {
       ////////////////STATUS OF User////////////////
       if (userInfo.emailConfirm === false) {
-        res.status(401).json({
+        res.json({
           message: "Please confirm your email address",
         });
         return;
@@ -125,12 +125,10 @@ const signin = async (req, res, next) => {
         //---------------------------------------------jwt
         res.status(200).json({ message: "Logged in successfully", token });
       } else {
-        res
-          .status(401)
-          .json({ message: "The username or password is incorrect" });
+        res.json({ message: "The username or password is incorrect" });
       }
     } else {
-      res.status(404).json({ message: "The username is incorrect" });
+      res.json({ message: "The username is incorrect" });
     }
   } catch (error) {
     res.status(500).json(error);
